@@ -44,6 +44,17 @@ class AuthTest {
     }
 
     @Test
+    void losCuatroInternosSonAdministradores() throws Exception {
+        login("jmorales", PASSWORD).andExpect(jsonPath("$.usuario.roles", contains("ADMIN")));
+        // V5: lgarcia y mperez ganan ADMIN y conservan APROBADOR y su límite
+        login("lgarcia", PASSWORD).andExpect(jsonPath("$.usuario.roles", contains("ADMIN", "APROBADOR")))
+                .andExpect(jsonPath("$.usuario.limiteAprobacion").value(10000.00));
+        login("mperez", PASSWORD).andExpect(jsonPath("$.usuario.roles", contains("ADMIN", "APROBADOR")))
+                .andExpect(jsonPath("$.usuario.limiteAprobacion").value(50000.00));
+        login("rlopez", PASSWORD).andExpect(jsonPath("$.usuario.roles", contains("ADMIN", "APROBADOR")));
+    }
+
+    @Test
     void loginExternoPorBcrypt() throws Exception {
         login("CRamirez", PASSWORD) // sin distinguir mayúsculas
                 .andExpect(status().isOk())

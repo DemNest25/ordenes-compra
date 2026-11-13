@@ -15,15 +15,15 @@ Contraseña de todos: **`Demo2026!`**
 | Usuario | Tipo | Autenticación | Roles | Límite de aprobación |
 |---|---|---|---|---|
 | `jmorales` | Interno | LDAP corporativo | ADMIN | - |
-| `lgarcia` | Interno | LDAP corporativo | APROBADOR | Q 10,000.00 |
-| `mperez` | Interno | LDAP corporativo | APROBADOR | Q 50,000.00 |
+| `lgarcia` | Interno | LDAP corporativo | ADMIN + APROBADOR | Q 10,000.00 |
+| `mperez` | Interno | LDAP corporativo | ADMIN + APROBADOR | Q 50,000.00 |
 | `rlopez` | Interno | LDAP corporativo | ADMIN + APROBADOR | Q 100,000.00 |
 | `cramirez` | Externo (asesor) | Usuario de la app (BCrypt) | EXTERNO | - |
 | `asandoval` | Externo (asesor) | Usuario de la app (BCrypt) | EXTERNO | - |
 
 **Para ver la doble aprobación:** entra como `cramirez`, crea una orden de Q 30,000 y envíala. `lgarcia` la aprueba, pero su límite es Q 10,000, así que la orden sigue pendiente de un segundo nivel. Ese segundo nivel lo da `mperez` o `rlopez`.
 
-Las cuentas externas se bloquean 15 minutos después de 5 intentos fallidos.
+Los 4 internos tienen acceso de administrador y ven todas las órdenes; los que además son aprobadores tienen su límite. Las cuentas externas se bloquean 15 minutos después de 5 intentos fallidos.
 
 ## Funcionalidad
 
@@ -35,10 +35,10 @@ Las cuentas externas se bloquean 15 minutos después de 5 intentos fallidos.
 - **Borrado siempre lógico.** La base de datos rechaza los `DELETE` físicos mediante triggers.
 - **Bloqueo optimista.** Si dos personas modifican la misma orden a la vez, la segunda recibe un aviso para recargar y no pisa el cambio de la primera.
 - **Reportes en vivo, exportables a PDF** y sin caché. El contenido depende del perfil:
-  - Órdenes por estado
-  - Rechazadas
-  - Tiempo de aprobación
-  - Pendientes vencidas (plazo de 2 días, configurable)
+  - Órdenes por estado (internos: todas; externos: solo las propias)
+  - Rechazadas (solo internos)
+  - Tiempo de aprobación (solo internos)
+  - Pendientes vencidas, con plazo de 2 días configurable (solo internos)
   - Gasto por departamento y gasto por proveedor (solo internos)
   - Historial propio (solo externos)
 

@@ -34,6 +34,18 @@ class ReporteTest extends ApiTestBase {
     }
 
     @Test
+    void externoSoloVeOrdenesPorEstadoEHistorialPropio() throws Exception {
+        mvc.perform(como("cramirez", get("/api/reportes")))
+                .andExpect(jsonPath("$[*].codigo", containsInAnyOrder("ordenes-por-estado", "historial-propio")));
+        // Reportes de internos: 403 aunque se pidan directo por URL (JSON y PDF)
+        for (String codigo : new String[] {"rechazadas", "tiempo-aprobacion", "pendientes-vencidas"}) {
+            mvc.perform(como("cramirez", get("/api/reportes/" + codigo))).andExpect(status().isForbidden());
+            mvc.perform(como("cramirez", get("/api/reportes/" + codigo + "/pdf"))).andExpect(status().isForbidden());
+            mvc.perform(como("lgarcia", get("/api/reportes/" + codigo))).andExpect(status().isOk());
+        }
+    }
+
+    @Test
     void porEstadoEsEnVivoYRespetaElAlcance() throws Exception {
         int antesCramirez = borradores("cramirez");
         int antesAsandoval = borradores("asandoval");

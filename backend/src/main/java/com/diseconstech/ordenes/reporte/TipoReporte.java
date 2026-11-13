@@ -8,9 +8,9 @@ import java.util.Optional;
 /** Catálogo de reportes y quién puede verlos. */
 public enum TipoReporte {
     ORDENES_POR_ESTADO("ordenes-por-estado", "Órdenes por estado", Acceso.TODOS),
-    RECHAZADAS("rechazadas", "Órdenes rechazadas", Acceso.TODOS),
-    TIEMPO_APROBACION("tiempo-aprobacion", "Tiempo de aprobación", Acceso.TODOS),
-    PENDIENTES_VENCIDAS("pendientes-vencidas", "Pendientes vencidas", Acceso.TODOS),
+    RECHAZADAS("rechazadas", "Órdenes rechazadas", Acceso.INTERNOS),
+    TIEMPO_APROBACION("tiempo-aprobacion", "Tiempo de aprobación", Acceso.INTERNOS),
+    PENDIENTES_VENCIDAS("pendientes-vencidas", "Pendientes vencidas", Acceso.INTERNOS),
     GASTO_DEPARTAMENTO("gasto-departamento", "Gasto por departamento", Acceso.INTERNOS),
     GASTO_PROVEEDOR("gasto-proveedor", "Gasto por proveedor", Acceso.INTERNOS),
     HISTORIAL_PROPIO("historial-propio", "Historial de mis órdenes", Acceso.EXTERNOS);
