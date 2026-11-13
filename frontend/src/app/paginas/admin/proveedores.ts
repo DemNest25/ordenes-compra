@@ -61,7 +61,7 @@ export class Proveedores implements OnInit {
 
   eliminar(p: Proveedor): void {
     this.dialog.open(DialogoAccion, {
-      data: { titulo: `Eliminar ${p.razonSocial}`, mensaje: 'Ya no aparecerá para nuevas órdenes (las existentes no cambian).', boton: 'Eliminar', peligro: true, sinComentario: true },
+      data: { titulo: `Eliminar ${p.razonSocial}`, boton: 'Eliminar', peligro: true, sinComentario: true },
     }).afterClosed().subscribe((r) => {
       if (!r) return;
       this.api.eliminarProveedor(p.id).subscribe({
@@ -82,7 +82,7 @@ export class Proveedores implements OnInit {
   template: `
     <h2 mat-dialog-title>{{ datos ? 'Editar proveedor' : 'Nuevo proveedor' }}</h2>
     <mat-dialog-content [formGroup]="form" class="campos">
-      <mat-form-field appearance="outline"><mat-label>NIT</mat-label><input matInput formControlName="nit" placeholder="1234567-8" />
+      <mat-form-field appearance="outline"><mat-label>NIT</mat-label><input matInput formControlName="nit" />
         <mat-error>{{ err('nit') }}</mat-error></mat-form-field>
       <mat-form-field appearance="outline"><mat-label>Razón social</mat-label><input matInput formControlName="razonSocial" />
         <mat-error>{{ err('razonSocial') }}</mat-error></mat-form-field>

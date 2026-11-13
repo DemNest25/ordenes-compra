@@ -57,7 +57,7 @@ export class Departamentos implements OnInit {
 
   eliminar(d: Departamento): void {
     this.dialog.open(DialogoAccion, {
-      data: { titulo: `Eliminar ${d.nombre}`, mensaje: 'Ya no aparecerá para nuevas órdenes.', boton: 'Eliminar', peligro: true, sinComentario: true },
+      data: { titulo: `Eliminar ${d.nombre}`, boton: 'Eliminar', peligro: true, sinComentario: true },
     }).afterClosed().subscribe((r) => {
       if (!r) return;
       this.api.eliminarDepartamento(d.id).subscribe({

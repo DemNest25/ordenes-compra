@@ -34,7 +34,7 @@ export interface ResultadoDialogo {
       @if (datos.mensaje) { <p class="mensaje">{{ datos.mensaje }}</p> }
       @if (datos.tipoMotivo) {
         <mat-form-field appearance="outline" class="ancho">
-          <mat-label>Motivo{{ datos.motivoObligatorio ? '' : ' (opcional)' }}</mat-label>
+          <mat-label>Motivo</mat-label>
           <mat-select formControlName="motivoId">
             @if (!datos.motivoObligatorio) { <mat-option [value]="null">Sin motivo</mat-option> }
             @for (m of motivos(); track m.id) { <mat-option [value]="m.id">{{ m.descripcion }}</mat-option> }
@@ -44,9 +44,8 @@ export interface ResultadoDialogo {
       }
       @if (!datos.sinComentario) {
         <mat-form-field appearance="outline" class="ancho">
-          <mat-label>Comentario{{ comentarioObligatorio() ? '' : ' (opcional)' }}</mat-label>
+          <mat-label>Comentario</mat-label>
           <textarea matInput formControlName="comentario" rows="3" maxlength="500"></textarea>
-          @if (comentarioObligatorio()) { <mat-hint>Obligatorio cuando el motivo es "Otro"</mat-hint> }
           <mat-error>{{ err('comentario') }}</mat-error>
         </mat-form-field>
       }

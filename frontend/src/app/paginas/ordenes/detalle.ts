@@ -20,9 +20,9 @@ const BOTONES: Record<AccionOrden, { texto: string; icono: string }> = {
   ENVIAR: { texto: 'Enviar a aprobación', icono: 'send' },
   APROBAR: { texto: 'Aprobar', icono: 'check_circle' },
   RECHAZAR: { texto: 'Rechazar', icono: 'cancel' },
-  RETIRAR: { texto: 'Retirar para corregir', icono: 'undo' },
+  RETIRAR: { texto: 'Retirar', icono: 'undo' },
   REABRIR: { texto: 'Regresar a borrador', icono: 'edit_note' },
-  CERRAR: { texto: 'Cerrar (venta concretada)', icono: 'task_alt' },
+  CERRAR: { texto: 'Cerrar', icono: 'task_alt' },
   CANCELAR: { texto: 'Cancelar orden', icono: 'block' },
   ELIMINAR: { texto: 'Eliminar', icono: 'delete' },
 };
@@ -38,10 +38,7 @@ const BOTONES: Record<AccionOrden, { texto: string; icono: string }> = {
           <div>
             <a mat-button routerLink="/ordenes"><mat-icon>arrow_back</mat-icon> Órdenes</a>
             <h1>{{ o.numero }} <span class="estado" [class]="o.estado">{{ o.estado | estado }}</span></h1>
-            @if (o.vencida) { <span class="vencida">Pendiente fuera del plazo de aprobación</span> }
-            @if (o.estado === 'PENDIENTE' && o.requiereSegundaAprobacion) {
-              <div class="aviso">El monto supera el límite del primer aprobador: falta la aprobación de segundo nivel.</div>
-            }
+            @if (o.vencida) { <span class="vencida">Vencida</span> }
           </div>
           <div class="acciones">
             @for (a of o.acciones; track a) {
@@ -107,7 +104,7 @@ const BOTONES: Record<AccionOrden, { texto: string; icono: string }> = {
                   <div class="muted">{{ a.fecha | date: formatoFecha }} | límite {{ a.limiteAprobador | quetzal }} | monto {{ a.montoOrden | quetzal }}</div>
                   @if (a.motivoRechazo) { <div>Motivo: {{ a.motivoRechazo.nombre }}</div> }
                   @if (a.comentario) { <div class="muted">"{{ a.comentario }}"</div> }
-                  @if (!a.vigente) { <div class="muted">Anulada (la orden volvió a borrador)</div> }
+                  @if (!a.vigente) { <div class="muted">Anulada</div> }
                 </div>
               </div>
             } @empty { <div class="muted">Sin decisiones todavía.</div> }
@@ -136,7 +133,6 @@ const BOTONES: Record<AccionOrden, { texto: string; icono: string }> = {
     .datos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
     .monto { font: var(--mat-sys-title-large); color: var(--mat-sys-primary); }
     .total { text-align: right; font: var(--mat-sys-title-medium); margin-top: 12px; }
-    .aviso { background: #fff3e0; color: #e65100; padding: 8px 12px; border-radius: 4px; margin-top: 8px; font-size: 14px; }
     .evento { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--mat-sys-outline-variant); }
     .evento:last-child { border-bottom: 0; }
     .anulada { opacity: .55; }
@@ -191,12 +187,9 @@ export class DetalleOrden {
     switch (a) {
       case 'APROBAR': {
         const limite = this.auth.usuario()?.limiteAprobacion ?? 0;
-        const segundo = o.requiereSegundaAprobacion;
-        const parcial = !segundo && o.montoTotal > limite;
         return {
-          titulo: `Aprobar ${o.numero}` + (segundo ? ' (segundo nivel)' : ''),
-          mensaje: `Monto: ${quetzales(o.montoTotal)}\nTu límite: ${quetzales(limite)}` +
-            (parcial ? '\n\nEl monto supera tu límite: tu aprobación será de primer nivel y la orden quedará pendiente de un segundo aprobador.' : ''),
+          titulo: `Aprobar ${o.numero}`,
+          mensaje: `Monto: ${quetzales(o.montoTotal)}\nTu límite: ${quetzales(limite)}`,
           boton: 'Aprobar',
         };
       }
@@ -206,15 +199,11 @@ export class DetalleOrden {
         return {
           titulo: `Cancelar ${o.numero}`, boton: 'Cancelar orden', peligro: true, tipoMotivo: 'MOTIVO_CANCELACION',
           motivoObligatorio: o.estado === 'APROBADA',
-          mensaje: 'La cancelación es definitiva.',
         };
       case 'ELIMINAR':
-        return { titulo: `Eliminar ${o.numero}`, mensaje: 'La orden dejará de mostrarse (queda registrada en la bitácora).', boton: 'Eliminar', peligro: true, sinComentario: true };
+        return { titulo: `Eliminar ${o.numero}`, boton: 'Eliminar', peligro: true, sinComentario: true };
       case 'REABRIR':
-        return {
-          titulo: `Regresar ${o.numero} a borrador`, boton: 'Regresar a borrador',
-          mensaje: o.estado === 'APROBADA' ? 'Las aprobaciones actuales se anularán y habrá que aprobarla de nuevo.' : undefined,
-        };
+        return { titulo: `Regresar ${o.numero} a borrador`, boton: 'Regresar a borrador' };
       case 'ENVIAR':
         return { titulo: `Enviar ${o.numero} a aprobación`, mensaje: `Monto: ${quetzales(o.montoTotal)}`, boton: 'Enviar' };
       default:

@@ -56,11 +56,10 @@ function dosDecimales(c: AbstractControl): ValidationErrors | null {
           <mat-form-field appearance="outline" class="ancho">
             <mat-label>Descripción</mat-label>
             <input matInput formControlName="descripcion" maxlength="500" />
-            <mat-hint align="end">{{ form.controls.descripcion.value.length }}/500</mat-hint>
             <mat-error>{{ err('descripcion') }}</mat-error>
           </mat-form-field>
           <mat-form-field appearance="outline" class="ancho">
-            <mat-label>Observaciones (opcional)</mat-label>
+            <mat-label>Observaciones</mat-label>
             <textarea matInput formControlName="observaciones" rows="2"></textarea>
             <mat-error>{{ err('observaciones') }}</mat-error>
           </mat-form-field>

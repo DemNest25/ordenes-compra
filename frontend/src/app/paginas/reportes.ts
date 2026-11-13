@@ -50,7 +50,7 @@ import { EstadoOrden, Reporte, ReporteDisponible, TipoColumna } from '../core/mo
       @if (reporte(); as r) {
         <div class="tarjeta">
           <h2>{{ r.titulo }}</h2>
-          <div class="muted">{{ r.alcance }} | generado {{ r.generadoEn | date: formatoFecha }} por {{ r.generadoPor }} (datos al momento de la consulta)</div>
+          <div class="muted">{{ r.alcance }} | generado {{ r.generadoEn | date: formatoFecha }} por {{ r.generadoPor }}</div>
           <div class="tabla-scroll">
             <table class="reporte">
               <thead><tr>@for (c of r.columnas; track $index) { <th [class.num]="esNumero(c.tipo)">{{ c.titulo }}</th> }</tr></thead>

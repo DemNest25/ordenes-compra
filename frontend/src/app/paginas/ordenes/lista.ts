@@ -30,7 +30,7 @@ import { EstadoOrden, OrdenResumen } from '../../core/modelos';
       <div class="tarjeta">
         <div class="fila filtros">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Buscar (número o descripción)</mat-label>
+            <mat-label>Buscar</mat-label>
             <input matInput [(ngModel)]="texto" (keyup.enter)="buscar()" />
             <button mat-icon-button matSuffix (click)="buscar()" aria-label="Buscar"><mat-icon>search</mat-icon></button>
           </mat-form-field>
@@ -70,7 +70,6 @@ import { EstadoOrden, OrdenResumen } from '../../core/modelos';
               <th mat-header-cell *matHeaderCellDef>Estado</th>
               <td mat-cell *matCellDef="let o">
                 <span class="estado" [class]="o.estado">{{ o.estado | estado }}</span>
-                @if (o.requiereSegundaAprobacion && o.estado === 'PENDIENTE') { <div class="muted">Falta segundo nivel</div> }
                 @if (o.vencida) { <div class="vencida">Vencida</div> }
               </td>
             </ng-container>

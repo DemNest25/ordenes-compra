@@ -16,8 +16,7 @@ import { aplicarErroresServidor, errorApi, mensajeError } from '../core/errores'
     <div class="fondo">
       <form class="caja" [formGroup]="form" (ngSubmit)="entrar()">
         @if (cargando()) { <mat-progress-bar mode="indeterminate" class="barra" /> }
-        <div class="marca"><mat-icon>receipt_long</mat-icon> Órdenes de Compra</div>
-        <p class="muted">Internos: usuario corporativo. Asesores externos: usuario de la aplicación.</p>
+        <div class="marca">Órdenes de Compra</div>
 
         <mat-form-field appearance="outline">
           <mat-label>Usuario</mat-label>
