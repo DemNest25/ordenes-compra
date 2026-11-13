@@ -36,7 +36,7 @@ export interface ResultadoDialogo {
         <mat-form-field appearance="outline" class="ancho">
           <mat-label>Motivo{{ datos.motivoObligatorio ? '' : ' (opcional)' }}</mat-label>
           <mat-select formControlName="motivoId">
-            @if (!datos.motivoObligatorio) { <mat-option [value]="null">— Sin motivo —</mat-option> }
+            @if (!datos.motivoObligatorio) { <mat-option [value]="null">Sin motivo</mat-option> }
             @for (m of motivos(); track m.id) { <mat-option [value]="m.id">{{ m.descripcion }}</mat-option> }
           </mat-select>
           <mat-error>{{ err('motivoId') }}</mat-error>
@@ -46,7 +46,7 @@ export interface ResultadoDialogo {
         <mat-form-field appearance="outline" class="ancho">
           <mat-label>Comentario{{ comentarioObligatorio() ? '' : ' (opcional)' }}</mat-label>
           <textarea matInput formControlName="comentario" rows="3" maxlength="500"></textarea>
-          @if (comentarioObligatorio()) { <mat-hint>Obligatorio cuando el motivo es «Otro»</mat-hint> }
+          @if (comentarioObligatorio()) { <mat-hint>Obligatorio cuando el motivo es "Otro"</mat-hint> }
           <mat-error>{{ err('comentario') }}</mat-error>
         </mat-form-field>
       }
@@ -93,7 +93,7 @@ export class DialogoAccion implements OnInit {
   confirmar(): void {
     const comentario = this.form.controls.comentario.value?.trim() || null;
     if (this.comentarioObligatorio() && !comentario) {
-      this.form.controls.comentario.setErrors({ servidor: 'Describe el motivo cuando eliges «Otro»' });
+      this.form.controls.comentario.setErrors({ servidor: 'Describe el motivo cuando eliges "Otro"' });
       this.form.controls.comentario.markAsTouched();
     }
     if (this.form.invalid) {

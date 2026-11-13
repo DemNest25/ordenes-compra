@@ -34,3 +34,4 @@ tmp/
 
 # ---------- Notas locales de trabajo (no van al repo)
 CLAUDE.md
+.claude/

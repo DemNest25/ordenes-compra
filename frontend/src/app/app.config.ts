@@ -4,6 +4,8 @@ import { provideRouter, withComponentInputBinding, withHashLocation } from '@ang
 import { routes } from './app.routes';
 import { authInterceptor } from './core/auth.interceptor';
 
+// Nota: el paginador en español (PaginadorEs) se registra en el Shell, no aquí: importarlo
+// en este archivo mete todo el módulo de paginador en el bundle inicial (de 88 KB a 153 KB).
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),

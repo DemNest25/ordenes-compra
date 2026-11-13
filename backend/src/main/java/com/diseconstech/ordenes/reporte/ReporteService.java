@@ -53,7 +53,7 @@ public class ReporteService {
                 .orElseThrow(() -> ApiException.noEncontrado("El reporte", codigo));
         UsuarioActual u = sesion.actual();
         if (!tipo.permitidoPara(u)) {
-            throw ApiException.prohibido("No tienes acceso al reporte «" + tipo.titulo() + "»");
+            throw ApiException.prohibido("No tienes acceso al reporte \"" + tipo.titulo() + "\"");
         }
         if (desde != null && hasta != null && hasta.isBefore(desde)) {
             throw ApiException.regla("hasta", "La fecha final no puede ser anterior a la inicial");
@@ -216,7 +216,7 @@ public class ReporteService {
         String alcance() {
             String quien = usuario.veTodo() ? "Todas las órdenes" : "Solo mis órdenes";
             if (desde == null && hasta == null) return quien;
-            return quien + " · creadas " + (desde != null ? "desde " + desde : "")
+            return quien + " - creadas " + (desde != null ? "desde " + desde : "")
                     + (desde != null && hasta != null ? " " : "") + (hasta != null ? "hasta " + hasta : "");
         }
     }

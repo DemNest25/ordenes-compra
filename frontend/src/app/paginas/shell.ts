@@ -5,17 +5,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { map } from 'rxjs';
 import { AuthService } from '../core/auth.service';
 import { QuetzalPipe } from '../core/formato';
+import { PaginadorEs } from '../core/paginador-es';
 
 @Component({
   selector: 'app-shell',
   imports: [RouterOutlet, RouterLink, RouterLinkActive, MatToolbarModule, MatSidenavModule, MatListModule,
     MatIconModule, MatButtonModule, MatMenuModule, QuetzalPipe],
+  // Las pantallas con paginador viven dentro del Shell y heredan este provider.
+  // Registrado aquí (carga diferida) y no en app.config.ts para no inflar el bundle inicial.
+  providers: [{ provide: MatPaginatorIntl, useClass: PaginadorEs }],
   template: `
     <mat-toolbar class="barra">
       @if (movil()) {
@@ -31,7 +36,7 @@ import { QuetzalPipe } from '../core/formato';
       <mat-menu #menu="matMenu">
         <div class="perfil">
           <strong>{{ auth.usuario()?.nombreCompleto }}</strong>
-          <div class="muted">{{ auth.usuario()?.username }} · {{ auth.usuario()?.interno ? 'Interno' : 'Externo' }}</div>
+          <div class="muted">{{ auth.usuario()?.username }} | {{ auth.usuario()?.interno ? 'Interno' : 'Externo' }}</div>
           <div class="muted">Roles: {{ auth.usuario()?.roles?.join(', ') }}</div>
           @if (auth.usuario()?.limiteAprobacion !== null) {
             <div class="muted">Límite de aprobación: {{ auth.usuario()?.limiteAprobacion | quetzal }}</div>

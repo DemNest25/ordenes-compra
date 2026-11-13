@@ -78,7 +78,7 @@ public class SeguridadConfig {
         return decoder;
     }
 
-    /** Claim "roles": ["ADMIN","APROBADOR"] → autoridades ROLE_ADMIN, ROLE_APROBADOR (para hasRole). */
+    /** Claim "roles": ["ADMIN","APROBADOR"] a autoridades ROLE_ADMIN, ROLE_APROBADOR (para hasRole). */
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter() {
         var autoridades = new JwtGrantedAuthoritiesConverter();

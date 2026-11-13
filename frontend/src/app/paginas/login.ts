@@ -37,7 +37,6 @@ import { aplicarErroresServidor, errorApi, mensajeError } from '../core/errores'
         @if (error()) { <div class="error" role="alert">{{ error() }}</div> }
 
         <button mat-flat-button type="submit" [disabled]="cargando()">Ingresar</button>
-        <p class="muted nota">La primera carga puede tardar ~1 min (hosting gratuito de Render).</p>
       </form>
     </div>
   `,
@@ -45,11 +44,10 @@ import { aplicarErroresServidor, errorApi, mensajeError } from '../core/errores'
     .fondo { min-height: 100vh; display: grid; place-items: center; padding: 16px; box-sizing: border-box;
       background: linear-gradient(135deg, var(--mat-sys-primary-container), var(--mat-sys-surface-container-low)); }
     .caja { position: relative; overflow: hidden; width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 4px;
-      background: var(--mat-sys-surface); border-radius: 16px; padding: 32px 28px 20px; box-shadow: var(--mat-sys-level3); }
+      background: var(--mat-sys-surface); border-radius: 4px; padding: 32px 28px 20px; box-shadow: var(--mat-sys-level3); }
     .barra { position: absolute; top: 0; left: 0; right: 0; }
     .marca { display: flex; align-items: center; gap: 8px; font: var(--mat-sys-title-large); color: var(--mat-sys-primary); }
-    .error { background: #ffebee; color: #b71c1c; border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; font-size: 14px; }
-    .nota { text-align: center; margin-top: 12px; }
+    .error { background: #ffebee; color: #b71c1c; border-radius: 4px; padding: 8px 12px; margin-bottom: 12px; font-size: 14px; }
   `,
 })
 export class Login {

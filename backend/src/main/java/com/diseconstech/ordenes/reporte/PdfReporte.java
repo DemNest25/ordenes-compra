@@ -43,7 +43,7 @@ public class PdfReporte {
         doc.add(new Paragraph(r.titulo(), TITULO));
         doc.add(new Paragraph(r.alcance(), INFO));
         doc.add(new Paragraph("Generado el " + fecha(r.generadoEn()) + " por " + r.generadoPor()
-                + " · datos al momento de la consulta", INFO));
+                + " - datos al momento de la consulta", INFO));
         doc.add(Chunk.NEWLINE);
 
         PdfPTable tabla = new PdfPTable(r.columnas().size());
@@ -114,7 +114,7 @@ public class PdfReporte {
             ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_RIGHT,
                     new Phrase("Página " + writer.getPageNumber(), INFO), doc.right(), doc.bottom() - 20, 0);
             ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT,
-                    new Phrase("Órdenes de Compra · diseconstech", INFO), doc.left(), doc.bottom() - 20, 0);
+                    new Phrase("Órdenes de Compra - diseconstech", INFO), doc.left(), doc.bottom() - 20, 0);
         }
     }
 }

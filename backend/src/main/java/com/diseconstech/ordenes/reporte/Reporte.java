@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Estructura común a todos los reportes. El tipo de cada columna le dice al PDF y al frontend
- * cómo formatear (ej. MONEDA → "Q 1,234.56"); los valores viajan crudos (BigDecimal, fecha ISO).
+ * cómo formatear (ej. MONEDA a "Q 1,234.56"); los valores viajan crudos (BigDecimal, fecha ISO).
  */
 public record Reporte(
         String codigo,

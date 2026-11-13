@@ -25,7 +25,7 @@ public class JpaConfig {
         return () -> sesion.opcional().map(UsuarioActual::id);
     }
 
-    // Por defecto Spring Data usa LocalDateTime; las columnas son TIMESTAMPTZ → OffsetDateTime.
+    // Por defecto Spring Data usa LocalDateTime; las columnas son TIMESTAMPTZ a OffsetDateTime.
     @Bean
     DateTimeProvider ahora() {
         return () -> Optional.of(OffsetDateTime.now());

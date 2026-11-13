@@ -1,5 +1,5 @@
 @startuml diagrama-er
-' Diagrama ER — esquema "oc" (Flyway V1). Regenerar: ver README, sección "Diagrama ER".
+' Diagrama ER - esquema "oc" (Flyway V1). Regenerar: ver README, sección "Diagrama ER".
 !pragma layout smetana
 hide circle
 hide empty methods
@@ -12,7 +12,7 @@ skinparam class {
   HeaderBackgroundColor #DCE6F5
   ArrowColor #4A6FA5
 }
-title Órdenes de Compra — Modelo entidad-relación (esquema oc)
+title Órdenes de Compra - Modelo entidad-relación (esquema oc)
 
 entity departamentos {
   * id : BIGINT <<PK>>

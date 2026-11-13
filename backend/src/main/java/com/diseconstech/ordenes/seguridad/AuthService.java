@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * Login único: el tipo_autenticacion del usuario decide contra qué se valida.
  * LDAP solo responde "la contraseña es correcta"; roles, límite y departamento
- * siempre salen de la BD de la app (autenticación ≠ autorización).
+ * siempre salen de la BD de la app (autenticación no es autorización).
  */
 @Service
 public class AuthService {

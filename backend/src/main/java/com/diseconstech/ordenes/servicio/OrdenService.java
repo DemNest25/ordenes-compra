@@ -167,7 +167,7 @@ public class OrdenService {
         return armarDto(o, c.ua());
     }
 
-    /** Pendiente → Borrador para corregir. Si ya había un primer nivel aprobado, se anula. */
+    /** Pendiente a Borrador para corregir. Si ya había un primer nivel aprobado, se anula. */
     public OrdenDto retirar(Long id, AccionRequest req) {
         Contexto c = cargarParaAccion(id, req.version(), AccionOrden.RETIRAR);
         Orden o = c.orden();
@@ -177,7 +177,7 @@ public class OrdenService {
         return armarDto(o, c.ua());
     }
 
-    /** Rechazada/Aprobada → Borrador. Las aprobaciones previas quedan anuladas: hay que reaprobar. */
+    /** Rechazada/Aprobada a Borrador. Las aprobaciones previas quedan anuladas: hay que reaprobar. */
     public OrdenDto reabrir(Long id, AccionRequest req) {
         Contexto c = cargarParaAccion(id, req.version(), AccionOrden.REABRIR);
         Orden o = c.orden();
@@ -221,7 +221,7 @@ public class OrdenService {
     /**
      * Nivel 1: si el monto cabe en el límite del aprobador, queda Aprobada; si no, sigue Pendiente
      * marcada como "requiere segunda aprobación".
-     * Nivel 2: otra persona (ni el creador ni el del nivel 1) con límite ≥ monto la deja Aprobada.
+     * Nivel 2: otra persona (ni el creador ni el del nivel 1) con límite >= monto la deja Aprobada.
      */
     public OrdenDto aprobar(Long id, AccionRequest req) {
         Contexto c = cargarParaAccion(id, req.version(), AccionOrden.APROBAR);
@@ -439,7 +439,7 @@ public class OrdenService {
         a.setComentario(vacioANull(comentario));
         a.setMontoOrden(o.getMontoTotal());
         a.setLimiteAprobador(limite);
-        aprobaciones.save(a); // el trigger revalida creador ≠ aprobador y nivel 2 ≠ nivel 1
+        aprobaciones.save(a); // el trigger revalida creador != aprobador y nivel 2 != nivel 1
     }
 
     private int anularAprobacionesVigentes(Orden o, Usuario quien) {
@@ -455,7 +455,7 @@ public class OrdenService {
 
     private static void exigirComentarioSiEsOtro(Catalogo motivo, String comentario) {
         if (CODIGO_OTRO.equals(motivo.getCodigo()) && (comentario == null || comentario.isBlank())) {
-            throw ApiException.regla("comentario", "Describe el motivo cuando eliges «Otro»");
+            throw ApiException.regla("comentario", "Describe el motivo cuando eliges \"Otro\"");
         }
     }
 

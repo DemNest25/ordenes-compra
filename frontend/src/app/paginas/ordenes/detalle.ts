@@ -71,8 +71,8 @@ const BOTONES: Record<AccionOrden, { texto: string; icono: string }> = {
             @if (o.fechaCierre) { <div><span class="muted">Cerrada</span><div>{{ o.fechaCierre | date: formatoFecha }}</div></div> }
             @if (o.fechaCancelacion) {
               <div><span class="muted">Cancelada</span><div>{{ o.fechaCancelacion | date: formatoFecha }}
-                {{ o.motivoCancelacion ? '· ' + o.motivoCancelacion.nombre : '' }}
-                {{ o.comentarioCancelacion ? '· ' + o.comentarioCancelacion : '' }}</div></div>
+                {{ o.motivoCancelacion ? '- ' + o.motivoCancelacion.nombre : '' }}
+                {{ o.comentarioCancelacion ? '- ' + o.comentarioCancelacion : '' }}</div></div>
             }
             <div><span class="muted">Monto total</span><div class="monto">{{ o.montoTotal | quetzal }}</div></div>
           </div>
@@ -103,10 +103,10 @@ const BOTONES: Record<AccionOrden, { texto: string; icono: string }> = {
               <div class="evento" [class.anulada]="!a.vigente">
                 <mat-icon [class]="a.decision === 'APROBADA' ? 'ok' : 'no'">{{ a.decision === 'APROBADA' ? 'check_circle' : 'cancel' }}</mat-icon>
                 <div>
-                  <strong>Nivel {{ a.nivel }} · {{ a.decision === 'APROBADA' ? 'Aprobó' : 'Rechazó' }}</strong> {{ a.aprobador.nombre }}
-                  <div class="muted">{{ a.fecha | date: formatoFecha }} · límite {{ a.limiteAprobador | quetzal }} · monto {{ a.montoOrden | quetzal }}</div>
+                  <strong>Nivel {{ a.nivel }} - {{ a.decision === 'APROBADA' ? 'Aprobó' : 'Rechazó' }}</strong> {{ a.aprobador.nombre }}
+                  <div class="muted">{{ a.fecha | date: formatoFecha }} | límite {{ a.limiteAprobador | quetzal }} | monto {{ a.montoOrden | quetzal }}</div>
                   @if (a.motivoRechazo) { <div>Motivo: {{ a.motivoRechazo.nombre }}</div> }
-                  @if (a.comentario) { <div class="muted">“{{ a.comentario }}”</div> }
+                  @if (a.comentario) { <div class="muted">"{{ a.comentario }}"</div> }
                   @if (!a.vigente) { <div class="muted">Anulada (la orden volvió a borrador)</div> }
                 </div>
               </div>
@@ -119,9 +119,9 @@ const BOTONES: Record<AccionOrden, { texto: string; icono: string }> = {
               <div class="evento">
                 <mat-icon>schedule</mat-icon>
                 <div>
-                  <strong>{{ h.estadoAnterior ? (h.estadoAnterior | estado) + ' → ' : '' }}{{ h.estadoNuevo | estado }}</strong>
-                  <div class="muted">{{ h.fecha | date: formatoFecha }} · {{ h.usuario.nombre }}</div>
-                  @if (h.comentario) { <div class="muted">“{{ h.comentario }}”</div> }
+                  <strong>{{ h.estadoAnterior ? (h.estadoAnterior | estado) + ' a ' : '' }}{{ h.estadoNuevo | estado }}</strong>
+                  <div class="muted">{{ h.fecha | date: formatoFecha }} | {{ h.usuario.nombre }}</div>
+                  @if (h.comentario) { <div class="muted">"{{ h.comentario }}"</div> }
                 </div>
               </div>
             }
@@ -136,7 +136,7 @@ const BOTONES: Record<AccionOrden, { texto: string; icono: string }> = {
     .datos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
     .monto { font: var(--mat-sys-title-large); color: var(--mat-sys-primary); }
     .total { text-align: right; font: var(--mat-sys-title-medium); margin-top: 12px; }
-    .aviso { background: #fff3e0; color: #e65100; padding: 8px 12px; border-radius: 8px; margin-top: 8px; font-size: 14px; }
+    .aviso { background: #fff3e0; color: #e65100; padding: 8px 12px; border-radius: 4px; margin-top: 8px; font-size: 14px; }
     .evento { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--mat-sys-outline-variant); }
     .evento:last-child { border-bottom: 0; }
     .anulada { opacity: .55; }

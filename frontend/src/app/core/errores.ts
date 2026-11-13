@@ -69,7 +69,7 @@ export class Avisos {
 
   /** Error de una llamada HTTP; "extra" = mensajes por campo que no se pudieron ubicar en el formulario. */
   error(err: unknown, extra: string[] = []): void {
-    this.falla([errorApi(err).mensaje, ...extra].join(' · '));
+    this.falla([errorApi(err).mensaje, ...extra].join(' | '));
   }
 
   falla(mensaje: string): void {

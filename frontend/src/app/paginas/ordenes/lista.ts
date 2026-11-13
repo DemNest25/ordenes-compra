@@ -70,7 +70,7 @@ import { EstadoOrden, OrdenResumen } from '../../core/modelos';
               <th mat-header-cell *matHeaderCellDef>Estado</th>
               <td mat-cell *matCellDef="let o">
                 <span class="estado" [class]="o.estado">{{ o.estado | estado }}</span>
-                @if (o.requiereSegundaAprobacion && o.estado === 'PENDIENTE') { <div class="muted">Falta 2.º nivel</div> }
+                @if (o.requiereSegundaAprobacion && o.estado === 'PENDIENTE') { <div class="muted">Falta segundo nivel</div> }
                 @if (o.vencida) { <div class="vencida">Vencida</div> }
               </td>
             </ng-container>

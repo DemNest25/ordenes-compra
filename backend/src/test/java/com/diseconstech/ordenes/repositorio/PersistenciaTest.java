@@ -89,7 +89,7 @@ class PersistenciaTest {
         em.clear();
         Orden leida = ordenes.findDetalleById(o.getId()).orElseThrow();
         assertEquals(2, leida.getDetalles().size());
-        // 10.555 se guarda como 10.56 (NUMERIC(18,2)); 3 × 10.56 = 31.68
+        // 10.555 se guarda como 10.56 (NUMERIC(18,2)); 3 x 10.56 = 31.68
         assertEquals(new BigDecimal("31.68"), leida.getDetalles().get(0).getSubtotal());
         assertEquals(new BigDecimal("150.00"), leida.getDetalles().get(1).getSubtotal());
         assertEquals("GTQ", leida.getMoneda());

@@ -37,7 +37,7 @@ public class ManejadorErrores {
 
     private static final Logger log = LoggerFactory.getLogger(ManejadorErrores.class);
 
-    /** Constraints UNIQUE de la BD → campo y mensaje entendible. */
+    /** Constraints UNIQUE de la BD a campo y mensaje entendible. */
     private static final Map<String, ErrorCampo> UNICOS = Map.of(
             "proveedores_nit_key", new ErrorCampo("nit", "Ya existe un proveedor con ese NIT"),
             "departamentos_codigo_key", new ErrorCampo("codigo", "Ya existe un departamento con ese código"),

@@ -7,6 +7,20 @@ html {
     typography: Roboto,
     density: -1,
   ));
+
+  // Esquinas sobrias en todo Material (botones, campos, menú, diálogos, snackbars, paginador).
+  // Van después del tema para sobrescribir sus valores.
+  --mat-sys-corner-extra-small: 4px;
+  --mat-sys-corner-extra-small-top: 4px 4px 0 0;
+  --mat-sys-corner-small: 4px;
+  --mat-sys-corner-medium: 4px;
+  --mat-sys-corner-large: 4px;
+  --mat-sys-corner-large-top: 4px 4px 0 0;
+  --mat-sys-corner-large-start: 4px 0 0 4px;
+  --mat-sys-corner-large-end: 0 4px 4px 0;
+  --mat-sys-corner-extra-large: 4px;
+  --mat-sys-corner-extra-large-top: 4px 4px 0 0;
+  --mat-sys-corner-full: 4px;
 }
 
 html, body { height: 100%; }
@@ -22,7 +36,7 @@ body {
 .encabezado { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
   h1 { margin: 0; font: var(--mat-sys-headline-small); }
 }
-.tarjeta { background: var(--mat-sys-surface); border-radius: 12px; padding: 16px; margin-bottom: 16px;
+.tarjeta { background: var(--mat-sys-surface); border-radius: 4px; padding: 16px; margin-bottom: 16px;
   box-shadow: var(--mat-sys-level1); }
 .fila { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start;
   > * { flex: 1 1 220px; }
@@ -35,7 +49,7 @@ table.mat-mdc-table { width: 100%; }
 .vacio { padding: 24px; text-align: center; color: var(--mat-sys-on-surface-variant); }
 
 // Chip de estado de la orden
-.estado { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; white-space: nowrap;
+.estado { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 12px; font-weight: 500; white-space: nowrap;
   &.BORRADOR  { background: #eceff1; color: #37474f; }
   &.PENDIENTE { background: #fff3e0; color: #e65100; }
   &.APROBADA  { background: #e8f5e9; color: #1b5e20; }

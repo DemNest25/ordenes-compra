@@ -119,7 +119,7 @@ public class Orden {
         detalles.add(detalle);
     }
 
-    /** Suma cantidad × precio de las líneas vivas (mismo redondeo que la columna generada). */
+    /** Suma cantidad x precio de las líneas vivas (mismo redondeo que la columna generada). */
     public BigDecimal calcularTotal() {
         return detalles.stream()
                 .filter(d -> !d.isEliminado())
