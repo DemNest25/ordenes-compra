@@ -1,0 +1,193 @@
+@startuml diagrama-er
+' Diagrama ER — esquema "oc" (Flyway V1). Regenerar: ver README, sección "Diagrama ER".
+!pragma layout smetana
+hide circle
+hide empty methods
+skinparam shadowing false
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 11
+skinparam class {
+  BackgroundColor #FDFDFE
+  BorderColor #4A6FA5
+  HeaderBackgroundColor #DCE6F5
+  ArrowColor #4A6FA5
+}
+title Órdenes de Compra — Modelo entidad-relación (esquema oc)
+
+entity departamentos {
+  * id : BIGINT <<PK>>
+  --
+  * codigo : VARCHAR(20) <<UK>>
+  * nombre : VARCHAR(100)
+  * activo : BOOLEAN
+  * eliminado : BOOLEAN
+  creado_en / creado_por
+  actualizado_en / actualizado_por
+}
+
+entity proveedores {
+  * id : BIGINT <<PK>>
+  --
+  * nit : VARCHAR(20) <<UK>>
+  * razon_social : VARCHAR(200)
+  nombre_comercial, telefono,
+  email, direccion
+  * activo / eliminado : BOOLEAN
+  creado_en / creado_por
+  actualizado_en / actualizado_por
+}
+
+entity catalogo {
+  * id : BIGINT <<PK>>
+  --
+  * tipo : VARCHAR(50)
+  * codigo : VARCHAR(50)
+  * descripcion : VARCHAR(200)
+  * orden : SMALLINT
+  * activo / eliminado : BOOLEAN
+  UK (tipo, codigo)
+}
+
+entity parametros {
+  * clave : VARCHAR(60) <<PK>>
+  --
+  * valor : VARCHAR(200)
+  * tipo_dato : VARCHAR(20)
+  * descripcion : VARCHAR(300)
+  actualizado_en / actualizado_por
+}
+
+entity roles {
+  * id : BIGINT <<PK>>
+  --
+  * codigo : VARCHAR(30) <<UK>>
+  * nombre : VARCHAR(100)
+  descripcion : VARCHAR(300)
+}
+
+entity usuarios {
+  * id : BIGINT <<PK>>
+  --
+  * username : VARCHAR(100) <<UK>>
+  * nombre_completo : VARCHAR(150)
+  * email : VARCHAR(150) <<UK>>
+  * tipo_autenticacion : LDAP | LOCAL
+  password_hash : VARCHAR(100)
+  departamento_id : BIGINT <<FK>>
+  limite_aprobacion : NUMERIC(18,2)
+  * intentos_fallidos : SMALLINT
+  bloqueado_hasta : TIMESTAMPTZ
+  ultimo_acceso : TIMESTAMPTZ
+  * activo / eliminado : BOOLEAN
+  creado_en / creado_por
+  actualizado_en / actualizado_por
+}
+
+entity usuario_rol {
+  * usuario_id : BIGINT <<PK, FK>>
+  * rol_id : BIGINT <<PK, FK>>
+  --
+  * asignado_en : TIMESTAMPTZ
+  asignado_por : BIGINT <<FK>>
+}
+
+entity ordenes {
+  * id : BIGINT <<PK>>
+  --
+  * numero : VARCHAR(20) <<UK>> (OC-AAAA-000001)
+  * creador_id : BIGINT <<FK>>
+  * departamento_id : BIGINT <<FK>>
+  * proveedor_id : BIGINT <<FK>>
+  * estado : VARCHAR(20)
+  * descripcion : VARCHAR(500)
+  observaciones : TEXT
+  * moneda : CHAR(3) = GTQ
+  * monto_total : NUMERIC(18,2)
+  * requiere_segunda_aprobacion : BOOLEAN
+  fecha_envio / fecha_resolucion
+  fecha_cierre / fecha_cancelacion
+  motivo_cancelacion_id : BIGINT <<FK>>
+  comentario_cancelacion : VARCHAR(500)
+  * version : INTEGER (bloqueo optimista)
+  * eliminado : BOOLEAN
+  * creado_en
+  actualizado_en / actualizado_por <<FK>>
+}
+
+entity orden_detalle {
+  * id : BIGINT <<PK>>
+  --
+  * orden_id : BIGINT <<FK>>
+  * linea : SMALLINT
+  * descripcion : VARCHAR(300)
+  * unidad_medida : VARCHAR(30)
+  * cantidad : NUMERIC(12,2)
+  * precio_unitario : NUMERIC(18,2)
+  subtotal : NUMERIC(18,2) (GENERATED)
+  * eliminado : BOOLEAN
+  UK parcial (orden_id, linea) WHERE NOT eliminado
+}
+
+entity aprobaciones {
+  * id : BIGINT <<PK>>
+  --
+  * orden_id : BIGINT <<FK>>
+  * aprobador_id : BIGINT <<FK>>
+  * nivel : SMALLINT (1 | 2)
+  * decision : APROBADA | RECHAZADA
+  motivo_rechazo_id : BIGINT <<FK>>
+  comentario : VARCHAR(500)
+  * monto_orden : NUMERIC(18,2)
+  * limite_aprobador : NUMERIC(18,2)
+  * fecha : TIMESTAMPTZ
+  * vigente : BOOLEAN
+  anulada_en / anulada_por <<FK>>
+  UK parcial (orden_id, nivel) WHERE vigente
+}
+
+entity orden_historial_estado {
+  * id : BIGINT <<PK>>
+  --
+  * orden_id : BIGINT <<FK>>
+  estado_anterior : VARCHAR(20)
+  * estado_nuevo : VARCHAR(20)
+  * usuario_id : BIGINT <<FK>>
+  * fecha : TIMESTAMPTZ
+  comentario : VARCHAR(500)
+  (append-only)
+}
+
+entity bitacora {
+  * id : BIGINT <<PK>>
+  --
+  * fecha : TIMESTAMPTZ
+  usuario_id : BIGINT <<FK>>
+  * username : VARCHAR(100)
+  * accion : VARCHAR(20)
+  * entidad : VARCHAR(50)
+  entidad_id : BIGINT
+  valores_anteriores : JSONB
+  valores_nuevos : JSONB
+  ip, user_agent
+  (append-only)
+}
+
+departamentos |o--o{ usuarios : pertenece
+usuarios ||--o{ usuario_rol
+roles ||--o{ usuario_rol
+
+usuarios ||--o{ ordenes : crea
+departamentos ||--o{ ordenes
+proveedores ||--o{ ordenes
+catalogo |o--o{ ordenes : motivo cancelación
+
+ordenes ||--|{ orden_detalle : contiene
+ordenes ||--o{ aprobaciones
+usuarios ||--o{ aprobaciones : aprueba / rechaza
+catalogo |o--o{ aprobaciones : motivo rechazo
+
+ordenes ||--o{ orden_historial_estado
+usuarios ||--o{ orden_historial_estado
+
+usuarios |o--o{ bitacora
+@enduml

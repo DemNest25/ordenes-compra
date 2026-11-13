@@ -1,0 +1,33 @@
+# ---------- Compilados y dependencias
+target/
+node_modules/
+dist/
+.angular/
+out-tsc/
+*.class
+*.jar
+
+# ---------- Secretos y configuración local (NUNCA al repo)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+secrets/
+application-local.yml
+application-local.properties
+
+# ---------- IDEs y sistema
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# ---------- Logs y temporales
+*.log
+tmp/

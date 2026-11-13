@@ -1,0 +1,57 @@
+# Directorio de demostración (servidor LDAP embebido, solo perfil "ldap-embebido").
+# En producción se apunta a la AD del cliente por configuración y este archivo no se usa.
+# Contraseña demo de todos los usuarios: Demo2026!
+
+dn: dc=diseconstech,dc=local
+objectClass: top
+objectClass: domain
+dc: diseconstech
+
+dn: ou=usuarios,dc=diseconstech,dc=local
+objectClass: top
+objectClass: organizationalUnit
+ou: usuarios
+
+dn: uid=jmorales,ou=usuarios,dc=diseconstech,dc=local
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: jmorales
+cn: Jorge Morales
+sn: Morales
+mail: jmorales@diseconstech.local
+userPassword: Demo2026!
+
+dn: uid=lgarcia,ou=usuarios,dc=diseconstech,dc=local
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: lgarcia
+cn: Lucia Garcia
+sn: Garcia
+mail: lgarcia@diseconstech.local
+userPassword: Demo2026!
+
+dn: uid=mperez,ou=usuarios,dc=diseconstech,dc=local
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: mperez
+cn: Mario Perez
+sn: Perez
+mail: mperez@diseconstech.local
+userPassword: Demo2026!
+
+dn: uid=rlopez,ou=usuarios,dc=diseconstech,dc=local
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: rlopez
+cn: Rosa Lopez
+sn: Lopez
+mail: rlopez@diseconstech.local
+userPassword: Demo2026!

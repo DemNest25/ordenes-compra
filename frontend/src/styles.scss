@@ -1,0 +1,53 @@
+@use '@angular/material' as mat;
+
+html {
+  color-scheme: light;
+  @include mat.theme((
+    color: (primary: mat.$azure-palette, tertiary: mat.$blue-palette, theme-type: light),
+    typography: Roboto,
+    density: -1,
+  ));
+}
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--mat-sys-surface-container-low);
+  color: var(--mat-sys-on-surface);
+}
+
+// ---------- utilidades compartidas por las páginas
+.pagina { padding: 24px; max-width: 1200px; margin: 0 auto; box-sizing: border-box; }
+.encabezado { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
+  h1 { margin: 0; font: var(--mat-sys-headline-small); }
+}
+.tarjeta { background: var(--mat-sys-surface); border-radius: 12px; padding: 16px; margin-bottom: 16px;
+  box-shadow: var(--mat-sys-level1); }
+.fila { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start;
+  > * { flex: 1 1 220px; }
+}
+.acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+.tabla-scroll { overflow-x: auto; }
+table.mat-mdc-table { width: 100%; }
+.num { text-align: right !important; white-space: nowrap; }
+.muted { color: var(--mat-sys-on-surface-variant); font: var(--mat-sys-body-small); }
+.vacio { padding: 24px; text-align: center; color: var(--mat-sys-on-surface-variant); }
+
+// Chip de estado de la orden
+.estado { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; white-space: nowrap;
+  &.BORRADOR  { background: #eceff1; color: #37474f; }
+  &.PENDIENTE { background: #fff3e0; color: #e65100; }
+  &.APROBADA  { background: #e8f5e9; color: #1b5e20; }
+  &.RECHAZADA { background: #ffebee; color: #b71c1c; }
+  &.CERRADA   { background: #e3f2fd; color: #0d47a1; }
+  &.CANCELADA { background: #f3e5f5; color: #4a148c; }
+}
+.vencida { color: #b71c1c; font-weight: 500; font-size: 12px; }
+
+.aviso-error { --mat-snack-bar-container-color: #b71c1c; --mat-snack-bar-supporting-text-color: #fff;
+  --mat-snack-bar-button-color: #fff; }
+
+@media (max-width: 600px) {
+  .pagina { padding: 12px; }
+}

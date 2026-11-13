@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: ordenes-compra
+  profiles:
+    # ldap-embebido = levanta el LDAP de demo dentro de la app.
+    # Producción con AD del cliente: PERFILES=prod y SPRING_LDAP_URLS / LDAP_* apuntando al AD.
+    active: ${PERFILES:ldap-embebido}
+  datasource:
+    # Sin valores por defecto: las credenciales SIEMPRE vienen del entorno (docker-compose en local, Render en producción)
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: oc
+  flyway:
+    schemas: oc
+    default-schema: oc
+  ldap:
+    # Sin "urls" se usa el puerto del LDAP embebido. Para AD: SPRING_LDAP_URLS=ldaps://ad.cliente.com:636
+    username: ${LDAP_USUARIO:}
+    password: ${LDAP_PASSWORD:}
+
+server:
+  # Render asigna el puerto en la variable PORT
+  port: ${PORT:8080}
+  # Detrás del proxy de Render: toma la IP real del cliente de X-Forwarded-For (para la bitácora)
+  forward-headers-strategy: native
+
+app:
+  jwt:
+    # Mínimo 32 caracteres (HS256). Sin valor por defecto: si falta, la app no arranca.
+    secreto: ${JWT_SECRETO}
+    expiracion: ${JWT_EXPIRACION:8h}
+  ldap:
+    busqueda-base: ${LDAP_BUSQUEDA_BASE:ou=usuarios,dc=diseconstech,dc=local}
+    # AD: (sAMAccountName={0})
+    filtro-usuario: ${LDAP_FILTRO:(uid={0})}
+  cors:
+    # Único origen autorizado a llamar la API desde el navegador (el Static Site de Render)
+    origenes: ${FRONTEND_URL:http://localhost:4200}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+---
+spring:
+  config:
+    activate:
+      on-profile: ldap-embebido
+  ldap:
+    embedded:
+      base-dn: dc=diseconstech,dc=local
+      ldif: classpath:ldap/diseconstech.ldif
+      credential:
+        username: cn=admin,dc=diseconstech,dc=local
+        # Solo la usa la propia app para buscar usuarios: aleatoria en cada arranque
+        password: ${LDAP_ADMIN_PASSWORD:${random.uuid}}

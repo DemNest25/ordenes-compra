@@ -1,0 +1,45 @@
+# Entorno de DESARROLLO local. Las credenciales de aquí son solo para esta BD local desechable;
+# las de producción viven únicamente en las variables de entorno de Render.
+services:
+  db:
+    image: postgres:18
+    container_name: oc-db
+    environment:
+      POSTGRES_DB: ordenes_compra
+      POSTGRES_USER: oc_owner
+      POSTGRES_PASSWORD: oc_owner_dev
+      TZ: America/Guatemala
+    ports:
+      - "15433:5432"
+    volumes:
+      # postgres:18 guarda los datos en /var/lib/postgresql/18/...: se monta el directorio padre
+      - oc-data-18:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U oc_owner -d ordenes_compra"]
+      interval: 5s
+      retries: 10
+
+  api:
+    image: maven:3.9-eclipse-temurin-21
+    container_name: oc-api
+    working_dir: /app
+    command: mvn spring-boot:run
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/ordenes_compra
+      DB_USER: oc_owner
+      DB_PASSWORD: oc_owner_dev
+      JWT_SECRETO: solo-desarrollo-local-no-usar-en-produccion-0123456789
+      FRONTEND_URL: http://localhost:4200
+      TZ: America/Guatemala
+    ports:
+      # 8080 del host está ocupado por otro servicio
+      - "18080:8080"
+    volumes:
+      - ./backend:/app
+      - D:/maven-repo:/root/.m2/repository
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  oc-data-18:
