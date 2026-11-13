@@ -5,7 +5,7 @@ Aplicación web para registrar, aprobar y dar seguimiento a órdenes de compra, 
 > **La primera carga puede tardar aprox. 1 min (hosting gratuito de Render).** El servidor se duerme tras un rato sin uso y tarda en despertar; después responde con normalidad.
 
 - **Aplicación:** https://ordenes-compra.onrender.com
-- **API (salud):** https://ordenes-compra-api.onrender.com/actuator/health
+- **API (salud):** https://ordenes-compra-api-x7oq.onrender.com/actuator/health
 - **Diagrama ER:** [docs/diagrama-er.png](docs/diagrama-er.png)
 
 ## Usuarios de demostración
